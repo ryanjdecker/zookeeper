@@ -21,7 +21,8 @@ public class SimpleTransportTree implements TransportTree{
     public SimpleTransportTree(String name, byte[] data, List<ACL> acl){
         this.data = data.clone();
         this.name = name;
-        this.acl = acl.clone(); // TODO copy depth?
+//        this.acl = acl.clone(); // TODO copy depth?
+        this.acl = acl;
         this.children = new ArrayList<TransportTree>();
     }
 
