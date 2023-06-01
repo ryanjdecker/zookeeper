@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.apache.zookeeper.data.ACL;
 
 /**
- * See the TransportTree interface for details. 
+ * See the TransportTree interface for details.
  */
 public class SimpleTransportTree implements TransportTree{
 
@@ -21,7 +21,8 @@ public class SimpleTransportTree implements TransportTree{
     public SimpleTransportTree(String name, byte[] data, List<ACL> acl){
         this.data = data.clone();
         this.name = name;
-        this.acl = acl.clone(); // TODO copy depth?
+//        this.acl = acl.clone(); // TODO copy depth?
+        this.acl = acl;
         this.children = new ArrayList<TransportTree>();
     }
 
@@ -43,6 +44,26 @@ public class SimpleTransportTree implements TransportTree{
 
     public Iterator<TransportTree> iterator(){
         return children.iterator();
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String path: getPathList("")) {
+            stringBuilder.append(path);
+            stringBuilder.append(System.lineSeparator());
+        }
+        return stringBuilder.toString();
+    }
+
+    public List<String> getPathList(String parentPath) {
+        List<String> pathList = new ArrayList<>();
+        String currentPath = parentPath + "/" + this.name;
+        pathList.add(currentPath);
+        for (TransportTree child: this) {
+            List<String> childPathList = child.getPathList(currentPath);
+            pathList.addAll(childPathList);
+        }
+        return pathList;
     }
 }
 

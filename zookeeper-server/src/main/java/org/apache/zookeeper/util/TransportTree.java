@@ -17,7 +17,7 @@ public interface TransportTree extends Iterable<TransportTree>{
      * Add a child TransportTree to this TransportTree
      *
      * @param child The transport tree to be added as a child of this tree
-     */ 
+     */
     public void addChild(TransportTree child);
 
 
@@ -25,7 +25,7 @@ public interface TransportTree extends Iterable<TransportTree>{
      * Get the name of this TransportTree node
      *
      * @return The name string that was passed to the tree constructor
-     */ 
+     */
     public String getName();
 
 
@@ -33,7 +33,7 @@ public interface TransportTree extends Iterable<TransportTree>{
      * Get the data of this TransportTree node
      *
      * @return The byte data associated with this node, drawn from the znode whence it came
-     */ 
+     */
     public byte[] getData();
 
 
@@ -41,8 +41,15 @@ public interface TransportTree extends Iterable<TransportTree>{
      * Get the Access Control List of this TransportTree node
      *
      * @return The ACL list, as passed to the constructor
-     */ 
+     */
     public List<ACL> getACL();
+
+    /**
+     * Get the path to each node in this TransportTree from the root of the TransportTree
+     *
+     * @return a list of paths
+     */
+    public List<String> getPathList(String parentPath);
 }
 
 
