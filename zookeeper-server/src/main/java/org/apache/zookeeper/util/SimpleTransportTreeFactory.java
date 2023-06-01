@@ -12,7 +12,7 @@ public class SimpleTransportTreeFactory implements TransportTreeFactory{
 
     /**
      * See interface for details
-     */ 
+     */
     public TransportTree makeNewTree(String name, byte[] data, List<ACL> acl){
         return new SimpleTransportTree(name, data, acl);
     }
