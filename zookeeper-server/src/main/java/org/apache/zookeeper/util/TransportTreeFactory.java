@@ -17,7 +17,7 @@ public interface TransportTreeFactory{
      * @param name The string name of the tree node (the last element of the znode path)
      * @param data The znode's data buffer, will be cloned into the tree.
      * @param acl The znode's access control list, will be cloned into the tree.
-     */ 
+     */
     public TransportTree makeNewTree(String name, byte[] data, List<ACL> acl);
 }
 
