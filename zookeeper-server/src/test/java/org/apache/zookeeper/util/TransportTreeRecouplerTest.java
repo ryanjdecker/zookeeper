@@ -10,9 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
 
-class TransportTreeJoinerTest extends ClientBase {
+class TransportTreeRecouplerTest extends ClientBase {
 
     @Test
     void attachTree() throws IOException, InterruptedException, KeeperException, CliWrapperException {
@@ -36,7 +35,7 @@ class TransportTreeJoinerTest extends ClientBase {
             System.out.println();
 
             // attach in new location
-            TransportTreeJoiner joiner = new TransportTreeJoiner(zk);
+            TransportTreeRecoupler joiner = new TransportTreeRecoupler(zk);
             joiner.attachTree("/z/z1", tree);
 
             TransportTree rejoinedTree = extractor.extractTree("/z", false);

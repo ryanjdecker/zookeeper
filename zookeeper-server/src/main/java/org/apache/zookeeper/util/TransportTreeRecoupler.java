@@ -14,10 +14,10 @@ import java.util.List;
 // What about watches?
 
 
-public class TransportTreeJoiner {
+public class TransportTreeRecoupler {
     ZooKeeper zk;
 
-    TransportTreeJoiner(ZooKeeper zk) {
+    TransportTreeRecoupler(ZooKeeper zk) {
         this.zk = zk;
     }
 
