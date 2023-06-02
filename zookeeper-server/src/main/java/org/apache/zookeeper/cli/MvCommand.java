@@ -22,6 +22,10 @@ public class MvCommand extends CliCommand {
         private String[] args;
         private CommandLine cl;
 
+        public MvCommand() {
+                super("mv", "[-i] [-v] pathSrc pathDest");
+        }
+
         @Override
         public boolean exec() throws CliException {
                 String src = args[1];
