@@ -22,6 +22,11 @@ public class MvCommand extends CliCommand {
         private String[] args;
         private CommandLine cl;
 
+        static {
+                options.addOption("i", false, "interactive");
+                options.addOption("v", false, "verbose");
+        }
+
         public MvCommand() {
                 super("mv", "[-i] [-v] pathSrc pathDest");
         }
