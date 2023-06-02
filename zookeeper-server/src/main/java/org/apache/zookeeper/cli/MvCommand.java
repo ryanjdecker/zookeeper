@@ -55,12 +55,17 @@ public class MvCommand extends CliCommand {
                 String src = args[1];
                 String dest = args[2];
 
-                TransportTreeExtractor tte = new TransportTreeExtractor(zk);
-                TransportRecoupler ttr = new TransportTreeRecoupler(zk);
+                try {
+                        TransportTreeExtractor tte = new TransportTreeExtractor(zk);
+                        TransportTree tt = tte.extractTree(src);
 
-                TransportTree tt = tte.extractTree(src);
-
-                ttr.attachTree(dest, tt);
+                        TransportRecoupler ttr = new TransportTreeRecoupler(zk);
+                        ttr.attachTree(dest, tt);
+                } catch (IllegalArgumentException ex) {
+                        throw new MalformedPathException(ex.getMessage());
+                } catch (KeeperException | InterruptedException ex) {
+                        throw new CliWrapperException(ex);
+                }
 
                 return false;
         }
