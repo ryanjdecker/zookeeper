@@ -32,6 +32,25 @@ public class MvCommand extends CliCommand {
         }
 
         @Override
+        public CliCommand parse(String[] cmdArgs) throws CliParseException {
+                DefaultParser parser = new DefaultParser();
+
+                try {
+                        cl = parser.parse(options, cmdArgs);
+                } catch (ParseException ex) {
+                        throw new CliParseException(ex);
+                }
+
+                args = cl.getArgs();
+
+                if (args.length < 3) {
+                        throw new CliParseException(getUsageStr());
+                }
+
+                return this;
+        }
+
+        @Override
         public boolean exec() throws CliException {
                 String src = args[1];
                 String dest = args[2];
@@ -43,6 +62,6 @@ public class MvCommand extends CliCommand {
 
                 ttr.attachTree(dest, tt);
 
-                return true;
+                return false;
         }
 }
