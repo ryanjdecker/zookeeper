@@ -43,8 +43,14 @@ public class MvCommand extends CliCommand {
 
                 args = cl.getArgs();
 
-                if (args.length < 3) {
+                if (args.length != 3) {
                         throw new CliParseException(getUsageStr());
+                }
+                
+                if (args[1].equals(args[2])) {
+                        throw new CliParseException(getCmdStr() + ": " +
+                                                    "'" + args[1] + "'" + " and " +
+                                                    "'" + args[2] + "'" + " are the same znode");
                 }
 
                 return this;
