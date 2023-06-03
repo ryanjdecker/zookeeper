@@ -3,8 +3,9 @@
 package org.apache.zookeeper.util;
 
 import java.lang.Iterable;
-import java.util.Iterator;
 import java.util.List;
+
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.ACL;
 
 /**
@@ -42,7 +43,14 @@ public interface TransportTree extends Iterable<TransportTree>{
      *
      * @return The ACL list, as passed to the constructor
      */
-    public List<ACL> getACL();
+    List<ACL> getACL();
+
+    /**
+     * Get the CreateMode for this TransportTree node (persistent or ephemeral)
+     *
+     * @return the CreateMode
+     */
+    CreateMode getCreateMode();
 
     /**
      * Get the path to each node in this TransportTree from the root of the TransportTree
