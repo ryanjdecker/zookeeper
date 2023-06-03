@@ -1,18 +1,14 @@
 package org.apache.zookeeper.cli;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import java.util.List;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.data.ACL;
-import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.EphemeralType;
-import org.apache.zookeeper.util;
+import org.apache.zookeeper.util.TransportTree;
+import org.apache.zookeeper.util.TransportTreeExtractor;
+import org.apache.zookeeper.util.TransportTreeRecoupler;
 import org.apache.zookeeper.ZKUtil;
 
 /**
@@ -22,6 +18,8 @@ public class MvCommand extends CliCommand {
         private static Options options = new Options();
         private String[] args;
         private CommandLine cl;
+        private TransportTreeExtractor tte;
+        private TransportTreeRecoupler ttr;
 
         static {
                 options.addOption("i", false, "interactive");
@@ -62,9 +60,15 @@ public class MvCommand extends CliCommand {
                 String src = args[1];
                 String dest = args[2];
 
+                if (tte == null) {
+                        this.tte = new TransportTreeExtractor(zk);
+                }
+
+                if (ttr == null) {
+                        this.ttr = new TransportTreeRecoupler(zk);
+                }
+
                 try {
-                        TransportTreeExtractor tte = new TransportTreeExtractor(zk);
-                        TransportRecoupler ttr = new TransportTreeRecoupler(zk);
                         boolean success;
 
                         TransportTree tt = tte.extractTree(src);
@@ -80,7 +84,6 @@ public class MvCommand extends CliCommand {
                 } catch (KeeperException | InterruptedException ex) {
                         throw new CliWrapperException(ex);
                 }
-
                 return false;
         }
 }
