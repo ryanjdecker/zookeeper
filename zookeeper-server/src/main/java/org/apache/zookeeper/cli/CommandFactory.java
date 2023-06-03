@@ -51,7 +51,8 @@ public class CommandFactory {
         GET_ALL_CHILDREN_NUMBER(GetAllChildrenNumberCommand::new),
         VERSION(VersionCommand::new),
         ADD_WATCH(AddWatchCommand::new),
-        WHO_AM_I(WhoAmICommand::new);
+        WHO_AM_I(WhoAmICommand::new),
+        MV_COMMAND(MvCommand::new);
 
         private Supplier<? extends CliCommand> instantiator;
 

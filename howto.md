@@ -1,14 +1,14 @@
 
 ## How to
 
-To install ZooKeeper, run:
+To install our extension of ZooKeeper, clone the git repository, change into the directory, and run Maven.
 
 ```
 git clone https://github.com/ryanjdecker/zookeeper.git
 cd zookeeper
 mvn clean install -DskipTests
 ```
-To launch a ZooKeeper server:
+To launch a ZooKeeper server, execute the zkServer script.
 
 ```
 bash bin/zkServer.sh start
@@ -16,7 +16,7 @@ bash bin/zkServer.sh start
 
 The server will listen on port 2181. To change this or other server settings, edit `conf/zoo.cfg`.
 
-To launch the ZooKeeper client, run:
+To launch the ZooKeeper client, execute the zkCli script.
 
 ```
 bash bin/zkCli.sh -server 127.0.0.1:2181

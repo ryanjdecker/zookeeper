@@ -21,7 +21,7 @@ public class TransportTreeRecoupler {
      *
      * @param zk ZooKeeper instance
      */
-    TransportTreeRecoupler(ZooKeeper zk) {
+    public TransportTreeRecoupler(ZooKeeper zk) {
         this.zk = zk;
     }
 
