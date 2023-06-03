@@ -64,14 +64,14 @@ jobs:
         if: matrix.zk != 'nightly'
         run: tools/ci/test-connectivity.py --server . --client apache-zookeeper-${{ matrix.zk }}-bin
         env:
-          ZOOCFG: zoo_sample.cfg
+          ZOOCFG: zoo.cfg
       - name: Test ZooKeeper ${{ matrix.zk }} server and nightly client
         if: matrix.zk != 'nightly'
         run: tools/ci/test-connectivity.py --server apache-zookeeper-${{ matrix.zk }}-bin --client .
         env:
-          ZOOCFG: zoo_sample.cfg
+          ZOOCFG: zoo.cfg
       - name: Test ZooKeeper nightly server and client
         if: matrix.zk == 'nightly'
         run: tools/ci/test-connectivity.py --server . --client .
         env:
-          ZOOCFG: zoo_sample.cfg
+          ZOOCFG: zoo.cfg
