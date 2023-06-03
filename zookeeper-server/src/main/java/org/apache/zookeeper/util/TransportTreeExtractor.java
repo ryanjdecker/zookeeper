@@ -1,18 +1,28 @@
 package org.apache.zookeeper.util;
 
+import java.util.List;
+
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.cli.CliWrapperException;
 import org.apache.zookeeper.data.ACL;
-import java.util.List;
+import org.apache.zookeeper.data.Stat;
 
+/**
+ * Objects of this class are used to extract TransportTree copies of the designated
+ * subtree of a ZooKeeper data tree in preparation for being copied or
+ * moved to a new destination in the data tree.
+ */
 public class TransportTreeExtractor {
     ZooKeeper zk; // client object
-    TransportTreeFactory treeFactory;
+    TransportTreeFactory treeFactory; // used to create TransportTree
 
     /**
+     * Constructor requires an instance of ZooKeeper (client object) in
+     * order to access ZooKeeper API
      *
-     * @param zk
+     * @param zk ZooKeeper instance
      */
     public TransportTreeExtractor(ZooKeeper zk) {
         this.zk = zk;
@@ -20,16 +30,28 @@ public class TransportTreeExtractor {
     }
 
     /**
+     * Copies the subtree beginning at rootPath into a TransportTree.
      *
-     * @param rootPath
-     * @param isDelete
-     * @return
+     * @param rootPath path to root node of subtree
+     * @return a copy of the subtree as a TransportTree
+     * @throws CliWrapperException command line exception thrown
      */
-    public TransportTree extractTree(String rootPath, boolean isDelete) throws CliWrapperException {
+    public TransportTree extractTree(String rootPath) throws CliWrapperException {
         try {
-            TransportTree tree = extractTree(rootPath);
-            if (isDelete) {
-                // TODO delete subtree from DataTree
+            String name = extractName(rootPath);
+
+            // Stat object into which to copy Stat from node
+            Stat stat = new Stat();
+            byte[] data = zk.getData(rootPath, null, stat);
+            List<ACL> acl = zk.getACL(rootPath, null);
+            // get the CreateMode (persistent or ephemeral)
+            CreateMode createMode = stat.getEphemeralOwner() == 0 ? CreateMode.PERSISTENT : CreateMode.EPHEMERAL;
+            TransportTree tree = treeFactory.makeNewTree(name, data, acl, createMode);
+
+            List<String> childPaths = zk.getChildren(rootPath, null);
+            for (String childPath: childPaths) {
+                TransportTree child = extractTree(rootPath + "/" + childPath);
+                tree.addChild(child);
             }
             return tree;
         }
@@ -39,30 +61,10 @@ public class TransportTreeExtractor {
     }
 
     /**
+     * Extracts the name of a znode (the end of its path)
      *
-     * @param path
-     * @return
-     * @throws KeeperException
-     * @throws InterruptedException
-     */
-    private TransportTree extractTree(String path) throws KeeperException, InterruptedException {
-        String name = extractName(path);
-        byte[] data = zk.getData(path, null, null);
-        List<ACL> acl = zk.getACL(path, null);
-        TransportTree tree = treeFactory.makeNewTree(name, data, acl);
-
-        List<String> childPaths = zk.getChildren(path, null);
-        for (String childPath: childPaths) {
-            TransportTree child = extractTree(path + "/" + childPath);
-            tree.addChild(child);
-        }
-        return tree;
-    }
-
-    /**
-     *
-     * @param path
-     * @return
+     * @param path the path of the znode
+     * @return the name of the node
      */
     private static String extractName(String path) {
         int lastSlashIndex = path.lastIndexOf('/');

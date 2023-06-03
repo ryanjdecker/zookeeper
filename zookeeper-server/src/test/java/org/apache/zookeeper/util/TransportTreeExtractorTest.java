@@ -16,10 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TransportTreeExtractorTest extends ClientBase {
 
-//    @BeforeEach
-//    void setUp() {
-//    }
-
     @Test
     void extractTree() throws IOException, InterruptedException, KeeperException, CliWrapperException {
         try (final ZooKeeper zk = createClient()) {
@@ -37,7 +33,7 @@ class TransportTreeExtractorTest extends ClientBase {
             }
 
             TransportTreeExtractor extractor = new TransportTreeExtractor(zk);
-            TransportTree tree = extractor.extractTree("/z/z2", false);
+            TransportTree tree = extractor.extractTree("/z/z2");
             System.out.println(tree);
         }
     }
