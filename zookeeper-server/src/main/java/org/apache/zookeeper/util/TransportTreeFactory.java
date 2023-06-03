@@ -21,5 +21,5 @@ public interface TransportTreeFactory{
      * @param acl The znode's access control list, will be cloned into the tree.
      * @param createMode The creation mode of the znode (persistent or ephemeral)
      */
-    public TransportTree makeNewTree(String name, byte[] data, List<ACL> acl, CreateMode createMode);
+    TransportTree makeNewTree(String name, byte[] data, List<ACL> acl, CreateMode createMode);
 }

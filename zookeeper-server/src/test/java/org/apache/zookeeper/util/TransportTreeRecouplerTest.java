@@ -30,15 +30,16 @@ class TransportTreeRecouplerTest extends ClientBase {
             }
 
             TransportTreeExtractor extractor = new TransportTreeExtractor(zk);
-            TransportTree tree = extractor.extractTree("/z/z2", false);
+            TransportTree tree = extractor.extractTree("/z/z2");
             System.out.println(tree);
             System.out.println();
 
             // attach in new location
             TransportTreeRecoupler joiner = new TransportTreeRecoupler(zk);
-            joiner.attachTree("/z/z1", tree);
+//            joiner.attachTree("/z/z1", tree);
+            joiner.attachTree("/z/z1/", tree);
 
-            TransportTree rejoinedTree = extractor.extractTree("/z", false);
+            TransportTree rejoinedTree = extractor.extractTree("/z");
             System.out.println(rejoinedTree);
         }
     }
