@@ -7,7 +7,6 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.cli.CliWrapperException;
 import org.apache.zookeeper.data.ACL;
-import org.apache.zookeeper.data.Stat;
 
 /**
  * Objects of this class are used to attach a znode subtree, represented as TransportTree,
