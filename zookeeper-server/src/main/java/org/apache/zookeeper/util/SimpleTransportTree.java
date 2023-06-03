@@ -6,6 +6,8 @@ import java.lang.Iterable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.ACL;
 
 /**
@@ -17,13 +19,15 @@ public class SimpleTransportTree implements TransportTree{
     private String name;
     private List<ACL> acl;
     private ArrayList<TransportTree> children;
+    private CreateMode createMode;
     
-    public SimpleTransportTree(String name, byte[] data, List<ACL> acl){
+    public SimpleTransportTree(String name, byte[] data, List<ACL> acl, CreateMode createMode){
         this.data = data.clone();
         this.name = name;
 //        this.acl = acl.clone(); // TODO copy depth?
         this.acl = acl;
         this.children = new ArrayList<TransportTree>();
+        this.createMode = createMode;
     }
 
     public void addChild(TransportTree child){
@@ -40,6 +44,10 @@ public class SimpleTransportTree implements TransportTree{
 
     public List<ACL> getACL(){
         return acl;
+    }
+
+    public CreateMode getCreateMode() {
+        return createMode;
     }
 
     public Iterator<TransportTree> iterator(){
