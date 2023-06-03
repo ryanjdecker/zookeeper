@@ -13,6 +13,7 @@ import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.EphemeralType;
 import org.apache.zookeeper.util;
+import org.apache.zookeeper.ZKUtil;
 
 /**
  * mv command for cli
@@ -63,9 +64,16 @@ public class MvCommand extends CliCommand {
 
                 try {
                         TransportTreeExtractor tte = new TransportTreeExtractor(zk);
+                        TransportRecoupler ttr = new TransportTreeRecoupler(zk);
+                        boolean success;
+
                         TransportTree tt = tte.extractTree(src);
 
-                        TransportRecoupler ttr = new TransportTreeRecoupler(zk);
+                        success = ZKUtil.deleteRecursive(zk, src, 1000);
+                        if (!success) {
+                                err.println("Failed to delete some node(s) in the subtree!");
+                        }
+
                         ttr.attachTree(dest, tt);
                 } catch (IllegalArgumentException ex) {
                         throw new MalformedPathException(ex.getMessage());
