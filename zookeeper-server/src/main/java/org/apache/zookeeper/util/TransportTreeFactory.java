@@ -3,6 +3,8 @@
 package org.apache.zookeeper.util;
 
 import java.util.List;
+
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.ACL;
 
 /**
@@ -17,8 +19,7 @@ public interface TransportTreeFactory{
      * @param name The string name of the tree node (the last element of the znode path)
      * @param data The znode's data buffer, will be cloned into the tree.
      * @param acl The znode's access control list, will be cloned into the tree.
+     * @param createMode The creation mode of the znode (persistent or ephemeral)
      */
-    public TransportTree makeNewTree(String name, byte[] data, List<ACL> acl);
+    public TransportTree makeNewTree(String name, byte[] data, List<ACL> acl, CreateMode createMode);
 }
-
-

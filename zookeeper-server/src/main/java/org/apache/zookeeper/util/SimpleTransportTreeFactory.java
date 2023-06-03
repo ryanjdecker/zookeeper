@@ -3,6 +3,8 @@
 package org.apache.zookeeper.util;
 
 import java.util.List;
+
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.ACL;
 
 /**
@@ -13,8 +15,8 @@ public class SimpleTransportTreeFactory implements TransportTreeFactory{
     /**
      * See interface for details
      */
-    public TransportTree makeNewTree(String name, byte[] data, List<ACL> acl){
-        return new SimpleTransportTree(name, data, acl);
+    public TransportTree makeNewTree(String name, byte[] data, List<ACL> acl, CreateMode createMode){
+        return new SimpleTransportTree(name, data, acl, createMode);
     }
 }
 
