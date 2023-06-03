@@ -36,7 +36,10 @@ public class TransportTreeRecoupler {
      */
     public void attachTree(String destination, TransportTree tree) throws CliWrapperException {
         // create node from tree at destination
-        String path = destination + "/" + tree.getName();
+        String path = destination + (destination.charAt(destination.length() - 1) == '/' ? "" : "/") + tree.getName();
+
+        // Stat to copy Stat data from node into
+        Stat stat = new Stat();
         byte[] data = tree.getData();
         List<ACL> acl = tree.getACL();
         CreateMode createMode = tree.getCreateMode();
