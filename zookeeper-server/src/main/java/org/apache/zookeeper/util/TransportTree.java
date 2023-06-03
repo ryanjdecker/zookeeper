@@ -19,7 +19,7 @@ public interface TransportTree extends Iterable<TransportTree>{
      *
      * @param child The transport tree to be added as a child of this tree
      */
-    public void addChild(TransportTree child);
+    void addChild(TransportTree child);
 
 
     /**
@@ -27,7 +27,7 @@ public interface TransportTree extends Iterable<TransportTree>{
      *
      * @return The name string that was passed to the tree constructor
      */
-    public String getName();
+    String getName();
 
 
     /**
@@ -35,7 +35,7 @@ public interface TransportTree extends Iterable<TransportTree>{
      *
      * @return The byte data associated with this node, drawn from the znode whence it came
      */
-    public byte[] getData();
+    byte[] getData();
 
 
     /**
@@ -57,7 +57,7 @@ public interface TransportTree extends Iterable<TransportTree>{
      *
      * @return a list of paths
      */
-    public List<String> getPathList(String parentPath);
+    List<String> getPathList(String parentPath);
 }
 
 
