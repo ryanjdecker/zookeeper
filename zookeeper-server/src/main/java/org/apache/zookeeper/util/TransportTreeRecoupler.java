@@ -1,10 +1,9 @@
 package org.apache.zookeeper.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
 import org.apache.zookeeper.cli.CliWrapperException;
 import org.apache.zookeeper.data.ACL;
 
@@ -34,20 +33,24 @@ public class TransportTreeRecoupler {
      * @throws CliWrapperException command line exception
      */
     public void attachTree(String destination, TransportTree tree) throws CliWrapperException {
-        // create node from tree at destination
-        String path = destination + (destination.charAt(destination.length() - 1) == '/' ? "" : "/") + tree.getName();
-
-        byte[] data = tree.getData();
-        List<ACL> acl = tree.getACL();
-        CreateMode createMode = tree.getCreateMode();
         try {
-            zk.create(path, data, acl, createMode);
-            for (TransportTree child: tree) {
-                attachTree(path, child);
-            }
+            List<Op> ops = new ArrayList<>();
+            addToOps(destination, tree, ops);
+            zk.multi(ops);
         }
         catch (KeeperException | InterruptedException e) {
             throw new CliWrapperException(e);
+        }
+    }
+
+    private void addToOps(String destination, TransportTree tree, List<Op> ops) {
+        String path = destination + (destination.charAt(destination.length() - 1) == '/' ? "" : "/") + tree.getName();
+        byte[] data = tree.getData();
+        List<ACL> acl = tree.getACL();
+        CreateMode createMode = tree.getCreateMode();
+        ops.add(Op.create(path, data, acl, createMode));
+        for (TransportTree child: tree) {
+            addToOps(path, child, ops);
         }
     }
 }

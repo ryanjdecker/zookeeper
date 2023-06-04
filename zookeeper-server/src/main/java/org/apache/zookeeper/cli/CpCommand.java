@@ -2,22 +2,18 @@ package org.apache.zookeeper.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.util.TransportTree;
 import org.apache.zookeeper.util.TransportTreeExtractor;
 import org.apache.zookeeper.util.TransportTreeRecoupler;
-import org.apache.zookeeper.ZKUtil;
 
 /**
  * cp command for cli
  */
 public class CpCommand extends CliCommand {
-        private static Options options = new Options();
+        private static final Options options = new Options();
         private String[] args;
-        private CommandLine cl;
         private TransportTreeExtractor tte;
         private TransportTreeRecoupler ttr;
 
@@ -29,6 +25,7 @@ public class CpCommand extends CliCommand {
         public CliCommand parse(String[] cmdArgs) throws CliParseException {
                 DefaultParser parser = new DefaultParser();
 
+                CommandLine cl;
                 try {
                         cl = parser.parse(options, cmdArgs);
                 } catch (ParseException ex) {
@@ -68,8 +65,6 @@ public class CpCommand extends CliCommand {
                         ttr.attachTree(dest, tt);
                 } catch (IllegalArgumentException ex) {
                         throw new MalformedPathException(ex.getMessage());
-                } catch (KeeperException | InterruptedException ex) {
-                        throw new CliWrapperException(ex);
                 }
                 return false;
         }

@@ -52,9 +52,10 @@ public class CommandFactory {
         VERSION(VersionCommand::new),
         ADD_WATCH(AddWatchCommand::new),
         WHO_AM_I(WhoAmICommand::new),
-        MV_COMMAND(MvCommand::new);
+        MV_COMMAND(MvCommand::new),
+        CP_COMMAND(CpCommand::new);
 
-        private Supplier<? extends CliCommand> instantiator;
+        private final Supplier<? extends CliCommand> instantiator;
 
         private CliCommand getInstance() {
             return instantiator.get();

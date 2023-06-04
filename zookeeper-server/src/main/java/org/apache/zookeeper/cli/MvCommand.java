@@ -2,7 +2,6 @@ package org.apache.zookeeper.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.zookeeper.KeeperException;
@@ -15,9 +14,8 @@ import org.apache.zookeeper.ZKUtil;
  * mv command for cli
  */
 public class MvCommand extends CliCommand {
-        private static Options options = new Options();
+        private static final Options options = new Options();
         private String[] args;
-        private CommandLine cl;
         private TransportTreeExtractor tte;
         private TransportTreeRecoupler ttr;
 
@@ -34,6 +32,7 @@ public class MvCommand extends CliCommand {
         public CliCommand parse(String[] cmdArgs) throws CliParseException {
                 DefaultParser parser = new DefaultParser();
 
+                CommandLine cl;
                 try {
                         cl = parser.parse(options, cmdArgs);
                 } catch (ParseException ex) {
@@ -72,13 +71,12 @@ public class MvCommand extends CliCommand {
                         boolean success;
 
                         TransportTree tt = tte.extractTree(src);
+                        ttr.attachTree(dest, tt);
 
                         success = ZKUtil.deleteRecursive(zk, src, 1000);
                         if (!success) {
                                 err.println("Failed to delete some node(s) in the subtree!");
                         }
-
-                        ttr.attachTree(dest, tt);
                 } catch (IllegalArgumentException ex) {
                         throw new MalformedPathException(ex.getMessage());
                 } catch (KeeperException | InterruptedException ex) {
