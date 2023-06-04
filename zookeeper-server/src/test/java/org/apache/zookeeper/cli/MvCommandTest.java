@@ -48,7 +48,8 @@ class MvCommandTest extends ClientBase {
             });
 
             final String[] invalidArgs = {"mv", "/z/z1", "/z/z1"};
-            Exception exception = assertThrows(
+            Exception exception;
+            exception = assertThrows(
                     CliParseException.class,
                     () -> {
                         mvCommand.parse(invalidArgs);
