@@ -48,12 +48,9 @@ class MvCommandTest extends ClientBase {
             });
 
             final String[] invalidArgs = {"mv", "/z/z1", "/z/z1"};
-            Exception exception;
-            exception = assertThrows(
+            Exception exception = assertThrows(
                     CliParseException.class,
-                    () -> {
-                        mvCommand.parse(invalidArgs);
-                    }
+                    () -> mvCommand.parse(invalidArgs)
             );
             assertEquals("mv: '/z/z1' and '/z/z1' are the same znode", exception.getMessage());
         } catch (KeeperException e) {
