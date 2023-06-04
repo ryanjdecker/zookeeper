@@ -36,7 +36,6 @@ class TransportTreeRecouplerTest extends ClientBase {
 
             // attach in new location
             TransportTreeRecoupler joiner = new TransportTreeRecoupler(zk);
-//            joiner.attachTree("/z/z1", tree);
             joiner.attachTree("/z/z1/", tree);
 
             TransportTree rejoinedTree = extractor.extractTree("/z");
